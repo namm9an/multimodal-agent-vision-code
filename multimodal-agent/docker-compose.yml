@@ -83,8 +83,8 @@ services:
       - E2E_API_TOKEN=${E2E_API_TOKEN}
       - QWEN_BASE_URL=${QWEN_BASE_URL}
       - QWEN_MODEL=${QWEN_MODEL:-Qwen/Qwen2.5-VL-7B-Instruct}
-      - MISTRAL_BASE_URL=${MISTRAL_BASE_URL}
-      - MISTRAL_MODEL=${MISTRAL_MODEL:-mistralai/Mistral-7B-v0.3}
+      - LLAMA_BASE_URL=${LLAMA_BASE_URL}
+      - LLAMA_MODEL=${LLAMA_MODEL:-meta-llama/Llama-3.1-8B-Instruct}
       - DEEPSEEK_BASE_URL=${DEEPSEEK_BASE_URL}
       - DEEPSEEK_MODEL=${DEEPSEEK_MODEL:-deepseek-ai/deepseek-coder-7b-instruct-v1.5}
       - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
@@ -126,7 +126,8 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-change_this_password}
       - E2E_API_TOKEN=${E2E_API_TOKEN}
       - QWEN_BASE_URL=${QWEN_BASE_URL}
-      - MISTRAL_BASE_URL=${MISTRAL_BASE_URL}
+      - LLAMA_BASE_URL=${LLAMA_BASE_URL}
+      - LLAMA_MODEL=${LLAMA_MODEL:-meta-llama/Llama-3.1-8B-Instruct}
       - DEEPSEEK_BASE_URL=${DEEPSEEK_BASE_URL}
     volumes:
       - ./backend:/app

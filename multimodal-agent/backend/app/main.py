@@ -7,7 +7,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import auth, files, health, jobs
+from app.api.v1 import auth, files, health, jobs, models
 from app.config import get_settings
 from app.core.database import init_db
 from app.core.logging import setup_logging
@@ -70,6 +70,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
     app.include_router(files.router, prefix="/api/v1/files", tags=["Files"])
     app.include_router(jobs.router, prefix="/api/v1/jobs", tags=["Jobs"])
+    app.include_router(models.router, prefix="/api/v1/models", tags=["Models"])
 
     return app
 

@@ -59,9 +59,9 @@ class Settings(BaseSettings):
     qwen_base_url: str = ""
     qwen_model: str = "Qwen/Qwen2.5-VL-7B-Instruct"
 
-    # Reasoning Model (Mistral)
-    mistral_base_url: str = ""
-    mistral_model: str = "mistralai/Mistral-7B-v0.3"
+    # Reasoning Model (Llama 3.1)
+    llama_base_url: str = ""
+    llama_model: str = "meta-llama/Llama-3.1-8B-Instruct"
 
     # Code Generation Model (DeepSeek)
     deepseek_base_url: str = ""
