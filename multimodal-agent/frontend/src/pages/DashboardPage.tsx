@@ -1,8 +1,6 @@
-import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
-import { useDropzone } from "react-dropzone";
-import { Upload, Image, Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { FileUploader } from "../components/features/upload/FileUploader";
 import { JobList } from "../components/features/upload/JobList";

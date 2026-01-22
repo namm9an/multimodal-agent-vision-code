@@ -9,7 +9,6 @@ from typing import Any
 
 import structlog
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.graph import run_agent
 from app.config import get_settings
@@ -37,7 +36,7 @@ async def _process_job_async(job_id: str) -> dict[str, Any]:
     Returns:
         Dict with job result information.
     """
-    settings = get_settings()
+    _ = get_settings()  # Keep for future use
 
     async with async_session_maker() as session:
         # 1. Load job from database

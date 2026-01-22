@@ -2,7 +2,6 @@
 
 import uuid
 from datetime import datetime, timezone
-from enum import Enum
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, status

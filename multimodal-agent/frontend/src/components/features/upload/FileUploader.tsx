@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, Image, Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Upload, Loader2, CheckCircle, XCircle } from "lucide-react";
 
 // Allowed image types only - NO PDFs!
 const ACCEPTED_FILE_TYPES = {

@@ -20,19 +20,13 @@ logger = structlog.get_logger()
 class LLMAdapterError(Exception):
     """Base exception for LLM adapter errors."""
 
-    pass
-
 
 class LLMConnectionError(LLMAdapterError):
     """Raised when connection to LLM endpoint fails."""
 
-    pass
-
 
 class LLMResponseError(LLMAdapterError):
     """Raised when LLM returns an error response."""
-
-    pass
 
 
 class BaseLLMAdapter(ABC):
@@ -101,8 +95,8 @@ class BaseLLMAdapter(ABC):
                 max_tokens=10,
             )
             return len(response) > 0
-        except Exception as e:
-            logger.error("Health check failed", model=self.model, error=str(e))
+        except (LLMAdapterError, httpx.HTTPError) as e:
+            logger.warning("Health check failed", model=self.model, error=str(e))
             return False
 
 
