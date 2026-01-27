@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Clock, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { Clock, CheckCircle, XCircle, Loader2, ImageIcon } from "lucide-react";
 
 // Placeholder job data - will be replaced with React Query
 const PLACEHOLDER_JOBS = [
@@ -24,7 +24,45 @@ const PLACEHOLDER_JOBS = [
 ];
 
 /**
+ * Skeleton component for loading states (Phase 4).
+ */
+function JobSkeleton() {
+    return (
+        <div className="flex items-center justify-between p-4 rounded-lg border animate-pulse">
+            <div className="flex items-center gap-3">
+                <div className="h-5 w-5 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                <div>
+                    <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded mb-2" />
+                    <div className="h-3 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
+                </div>
+            </div>
+            <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
+        </div>
+    );
+}
+
+/**
+ * Empty state component with illustration (Phase 4).
+ */
+function EmptyState() {
+    return (
+        <div className="text-center py-12 px-4">
+            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center mb-4">
+                <ImageIcon className="h-8 w-8 text-blue-500 dark:text-blue-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                No jobs yet
+            </h3>
+            <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                Upload an image to get started. Our AI will analyze it and generate Python code for you.
+            </p>
+        </div>
+    );
+}
+
+/**
  * List of recent jobs with status indicators.
+ * Phase 4: Enhanced with skeleton loading and empty states.
  */
 export function JobList() {
     // TODO: Replace with React Query hook
@@ -33,18 +71,16 @@ export function JobList() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+            <div className="space-y-3">
+                <JobSkeleton />
+                <JobSkeleton />
+                <JobSkeleton />
             </div>
         );
     }
 
     if (jobs.length === 0) {
-        return (
-            <div className="text-center py-8">
-                <p className="text-slate-500">No jobs yet. Upload an image to get started!</p>
-            </div>
-        );
+        return <EmptyState />;
     }
 
     return (
@@ -64,42 +100,49 @@ interface Job {
 }
 
 function JobCard({ job }: { job: Job }) {
-    const statusConfig: Record<string, { icon: any; className: string }> = {
+    const statusConfig: Record<string, { icon: any; className: string; label: string }> = {
         pending: {
             icon: Clock,
             className: "text-yellow-500",
+            label: "Pending",
         },
         processing: {
             icon: Loader2,
             className: "text-blue-500 animate-spin",
+            label: "Processing...",
         },
         completed: {
             icon: CheckCircle,
             className: "text-green-500",
+            label: "Completed",
         },
         failed: {
             icon: XCircle,
             className: "text-red-500",
+            label: "Failed",
         },
     };
 
-    const { icon: StatusIcon, className } = statusConfig[job.status] || statusConfig.pending;
+    const { icon: StatusIcon, className, label } = statusConfig[job.status] || statusConfig.pending;
 
     return (
         <Link
             to={`/jobs/${job.id}`}
-            className="flex items-center justify-between p-4 rounded-lg border hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+            className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
         >
             <div className="flex items-center gap-3">
                 <StatusIcon className={`h-5 w-5 ${className}`} />
                 <div>
-                    <p className="font-medium">{job.filename}</p>
-                    <p className="text-sm text-slate-500">
+                    <p className="font-medium text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {job.filename}
+                    </p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
                         {new Date(job.createdAt).toLocaleString()}
                     </p>
                 </div>
             </div>
-            <span className="text-sm text-slate-400 capitalize">{job.status}</span>
+            <span className={`text-sm font-medium ${className}`}>{label}</span>
         </Link>
     );
 }
+
