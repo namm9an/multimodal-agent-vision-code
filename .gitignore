@@ -3,3 +3,20 @@ WORK_LOG.md
 *.tsbuildinfo
 vite.config.d.ts
 vite.config.js
+SESSION_HISTORY.md
+
+# Documentation
+CLERK_INTEGRATION.md
+CODING_STANDARDS.md
+IMPLEMENTATION_GUIDE.md
+LLM_CONFIG.md
+STEP_BY_STEP_PLAN.md
+architecturediagram.md
+brainstorming.md
+folder_structure.md
+prd.md
+techstack.md
+testing_and_error_handling.md
+
+# Archives
+archive/
