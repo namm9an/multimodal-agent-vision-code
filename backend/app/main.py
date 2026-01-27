@@ -1,15 +1,25 @@
-"""FastAPI application entry point."""
+"""FastAPI application entry point.
 
+Phase 4 Integration:
+- Redis cache manager lifecycle
+- Global error handlers
+- Sentry integration (optional)
+- Request ID middleware
+"""
+
+import uuid
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 import structlog
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1 import auth, files, health, jobs, models
 from app.config import get_settings
+from app.core.cache import cache_manager
 from app.core.database import init_db
+from app.core.errors import setup_error_handlers
 from app.core.logging import setup_logging
 
 # Initialize structured logging
@@ -33,10 +43,41 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await init_db()
     logger.info("Database initialized")
 
+    # Initialize Redis cache (Phase 4)
+    await cache_manager.connect()
+
+    # Initialize Sentry if DSN provided (Phase 4)
+    sentry_dsn = getattr(settings, "sentry_dsn", None)
+    if sentry_dsn:
+        try:
+            import sentry_sdk
+            sentry_sdk.init(
+                dsn=sentry_dsn,
+                environment=settings.environment,
+                traces_sample_rate=0.1,
+            )
+            logger.info("Sentry initialized")
+        except ImportError:
+            logger.warning("sentry-sdk not installed, skipping Sentry init")
+
     yield
 
     # Shutdown
+    await cache_manager.disconnect()
     logger.info("Shutting down application")
+
+
+async def request_id_middleware(request: Request, call_next):
+    """Add unique request ID to each request for tracing."""
+    request_id = str(uuid.uuid4())
+    request.state.request_id = request_id
+
+    # Add to structlog context
+    structlog.contextvars.bind_contextvars(request_id=request_id)
+
+    response = await call_next(request)
+    response.headers["X-Request-ID"] = request_id
+    return response
 
 
 def create_app() -> FastAPI:
@@ -65,6 +106,12 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    # Add request ID middleware (Phase 4)
+    app.middleware("http")(request_id_middleware)
+
+    # Register global error handlers (Phase 4)
+    setup_error_handlers(app)
+
     # Include routers
     app.include_router(health.router, tags=["Health"])
     app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
@@ -77,3 +124,4 @@ def create_app() -> FastAPI:
 
 # Create the application instance
 app = create_app()
+
