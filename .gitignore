@@ -1,22 +1,101 @@
-WORK_LOG.md
-.DS_Store
-*.tsbuildinfo
-vite.config.d.ts
-vite.config.js
-SESSION_HISTORY.md
 
+# Archives
+# Build outputs
+# Database
+# Dependencies
+# Docker
 # Documentation
+# Environment files (NEVER COMMIT)
+# IDE
+# Jupyter
+# Logs
+# MinIO data
+# Model weights (too large for git)
+# OS files
+# Postgres data
+# Redis data
+# Secrets and keys
+# Temporary files
+# Testing
+*$py.class
+*.bin
+*.crt
+*.db
+*.egg
+*.egg-info/
+*.gguf
+*.key
+*.log
+*.pem
+*.py[cod]
+*.safetensors
+*.so
+*.sqlite3
+*.swo
+*.swp
+*.tsbuildinfo
+*~
+.DS_Store
+.Python
+.coverage
+.docker/
+.eggs/
+.env
+.env.*.local
+.env.development
+.env.local
+.env.production
+.idea/
+.installed.cfg
+.ipynb_checkpoints/
+.mypy_cache/
+.next/
+.nox/
+.pytest_cache/
+.tmp/
+.tox/
+.vscode/
 CLERK_INTEGRATION.md
 CODING_STANDARDS.md
 IMPLEMENTATION_GUIDE.md
 LLM_CONFIG.md
+SESSION_HISTORY.md
 STEP_BY_STEP_PLAN.md
+Thumbs.db
+WORK_LOG.md
+__pycache__/
 architecturediagram.md
-brainstorming.md
-folder_structure.md
-prd.md
-techstack.md
-testing_and_error_handling.md
-
-# Archives
 archive/
+brainstorming.md
+build/
+coverage/
+develop-eggs/
+dist/
+downloads/
+eggs/
+folder_structure.md
+htmlcov/
+lib/
+lib64/
+logs/
+minio_data/
+models/weights/
+node_modules/
+npm-debug.log*
+out/
+parts/
+postgres_data/
+prd.md
+redis_data/
+sdist/
+secrets/
+techstack.md
+temp/
+testing_and_error_handling.md
+tmp/
+var/
+vite.config.d.ts
+vite.config.js
+wheels/
+yarn-debug.log*
+yarn-error.log*
