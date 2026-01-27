@@ -208,6 +208,9 @@ async def get_job(
 ) -> JobResponse:
     """Get a specific job's status and details.
 
+    Uses Redis caching for improved performance on frequent polling.
+    Cache TTL varies based on job status (shorter for active jobs).
+
     Args:
         job_id: The ID of the job to retrieve.
         user: Current authenticated user.
@@ -219,6 +222,17 @@ async def get_job(
     Raises:
         HTTPException: If job not found.
     """
+    from app.core.cache import cache_manager, CacheManager
+
+    # Try cache first (Phase 4)
+    cache_key = CacheManager.generate_key("job", job_id)
+    cached = await cache_manager.get(cache_key)
+
+    if cached and cached.get("user_id") == user.user_id:
+        logger.debug("Job cache hit", job_id=job_id)
+        return JobResponse(**cached)
+
+    # Cache miss - fetch from database
     result = await db.execute(
         select(JobModel).where(
             JobModel.id == job_id,
@@ -233,15 +247,29 @@ async def get_job(
             detail="Job not found",
         )
 
-    return JobResponse(
-        job_id=job.id,
-        user_id=job.user_id,
-        file_id=job.file_id,
-        status=job.status.value,
-        task=job.task,
-        prompt=job.prompt,
-        result_url=job.result_url,
-        error_message=job.error_message,
-        created_at=job.created_at.isoformat(),
-        updated_at=job.updated_at.isoformat(),
-    )
+    response_data = {
+        "job_id": job.id,
+        "user_id": job.user_id,
+        "file_id": job.file_id,
+        "status": job.status.value,
+        "task": job.task,
+        "prompt": job.prompt,
+        "result_url": job.result_url,
+        "error_message": job.error_message,
+        "created_at": job.created_at.isoformat(),
+        "updated_at": job.updated_at.isoformat(),
+    }
+
+    # Cache with TTL based on status (Phase 4)
+    # Active jobs: short TTL (10s) for fresher data
+    # Completed/Failed: longer TTL (1 hour)
+    if job.status in (JobStatus.COMPLETED, JobStatus.FAILED):
+        ttl = 3600  # 1 hour
+    else:
+        ttl = 10  # 10 seconds for active jobs
+
+    await cache_manager.set(cache_key, response_data, ttl=ttl)
+    logger.debug("Job cached", job_id=job_id, ttl=ttl)
+
+    return JobResponse(**response_data)
+
