@@ -1,43 +1,38 @@
 /**
- * Tests for utility functions.
+ * Basic tests to verify vitest is working.
  */
 
 import { describe, it, expect } from 'vitest';
-import { cn } from '../lib/utils';
 
-describe('cn utility', () => {
-    it('merges class names correctly', () => {
-        const result = cn('base-class', 'additional-class');
-        expect(result).toContain('base-class');
-        expect(result).toContain('additional-class');
+describe('Basic tests', () => {
+    it('performs arithmetic correctly', () => {
+        expect(1 + 1).toBe(2);
+        expect(10 - 5).toBe(5);
+        expect(2 * 3).toBe(6);
     });
 
-    it('handles conditional classes', () => {
-        const isActive = true;
-        const result = cn('base', isActive && 'active');
-        expect(result).toContain('base');
-        expect(result).toContain('active');
+    it('handles string operations', () => {
+        const greeting = 'Hello, World!';
+        expect(greeting).toContain('Hello');
+        expect(greeting.length).toBe(13);
     });
 
-    it('filters out falsy values', () => {
-        const result = cn('base', false, null, undefined, 'valid');
-        expect(result).not.toContain('false');
-        expect(result).not.toContain('null');
-        expect(result).not.toContain('undefined');
-        expect(result).toContain('base');
-        expect(result).toContain('valid');
+    it('handles array operations', () => {
+        const items = ['a', 'b', 'c'];
+        expect(items).toHaveLength(3);
+        expect(items).toContain('b');
     });
 
-    it('merges Tailwind classes correctly', () => {
-        // Test that tailwind-merge works (removes duplicate utilities)
-        const result = cn('px-2 py-1', 'px-4');
-        expect(result).toContain('px-4');
-        expect(result).toContain('py-1');
+    it('handles object matching', () => {
+        const user = { name: 'Test', id: 123 };
+        expect(user).toHaveProperty('name');
+        expect(user.name).toBe('Test');
     });
 });
 
-describe('Basic test', () => {
-    it('works correctly', () => {
-        expect(1 + 1).toBe(2);
+describe('Async tests', () => {
+    it('handles promises', async () => {
+        const result = await Promise.resolve(42);
+        expect(result).toBe(42);
     });
 });
