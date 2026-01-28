@@ -2,54 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import clean, modern font similar to Greycliff */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+/* Clean sans-serif font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* Clean Light Theme - Limitless Inspired */
-    --background: 0 0% 100%;
-    --foreground: 240 10% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-    --accent: 240 5% 96%;
-    --accent-foreground: 240 6% 10%;
+    /* Dark iOS-style theme */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 240 5% 65%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 6% 10%;
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 240 4% 16%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 240 5% 65%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 40%;
+    --radius: 1rem;
   }
 }
 
@@ -59,92 +37,145 @@
   }
 
   html {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-black text-white antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-/* Clean, Minimal Utility Classes */
+/* Floating Orbs Animation */
 @layer utilities {
-
-  /* Subtle gradient for text */
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(to right, #1a1a2e 0%, #4a4a6a 100%);
+  .floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float-around 20s ease-in-out infinite;
   }
 
-  /* Very subtle background gradient */
-  .bg-subtle-gradient {
-    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  .orb-1 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    top: -200px;
+    left: -100px;
+    animation-delay: 0s;
   }
 
-  /* Clean card style */
-  .card-clean {
-    @apply bg-white rounded-2xl border border-gray-100;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    top: 40%;
+    right: -150px;
+    animation-delay: -7s;
   }
 
-  .card-clean:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  .orb-3 {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    bottom: -100px;
+    left: 30%;
+    animation-delay: -14s;
   }
 
-  /* Subtle hover lift */
-  .hover-lift {
+  @keyframes float-around {
+
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+      transform: translate(30px, -30px) scale(1.05);
+    }
+
+    50% {
+      transform: translate(-20px, 20px) scale(0.95);
+    }
+
+    75% {
+      transform: translate(15px, 15px) scale(1.02);
+    }
+  }
+
+  /* iOS-style Glass Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Interactive Hover Effects */
+  .interactive {
     @apply transition-all duration-300 ease-out;
   }
 
-  .hover-lift:hover {
+  .interactive:hover {
     @apply -translate-y-1;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
-  /* Clean button styles */
+  /* Button Styles */
   .btn-primary {
-    @apply bg-gray-900 text-white px-6 py-3 rounded-full font-medium;
+    @apply px-6 py-3 bg-white text-black font-medium rounded-full;
     @apply transition-all duration-200 ease-out;
   }
 
   .btn-primary:hover {
-    @apply bg-gray-800 shadow-lg;
-    transform: translateY(-1px);
+    @apply bg-gray-100 scale-105;
   }
 
-  .btn-secondary {
-    @apply bg-gray-100 text-gray-900 px-6 py-3 rounded-full font-medium;
+  .btn-ghost {
+    @apply px-6 py-3 text-white font-medium rounded-full;
     @apply transition-all duration-200 ease-out;
+    @apply glass;
   }
 
-  .btn-secondary:hover {
-    @apply bg-gray-200;
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 
-  /* Soft shadow */
-  .shadow-soft {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  /* Card Style */
+  .card-glass {
+    @apply rounded-2xl glass p-6;
+    @apply transition-all duration-300 ease-out;
   }
 
-  .shadow-soft-lg {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  .card-glass:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
   }
 
-  /* Section spacing */
-  .section {
-    @apply py-20 md:py-32;
+  /* Large Typography */
+  .text-hero {
+    @apply text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.05];
   }
 
-  /* Fade in animation */
-  .fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
+  /* Fade In Animation */
+  .fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+    opacity: 0;
   }
 
-  @keyframes fadeIn {
+  @keyframes fadeUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
 
     to {
@@ -153,20 +184,29 @@
     }
   }
 
-  /* Staggered animations */
-  .stagger-1 {
+  .delay-1 {
     animation-delay: 0.1s;
   }
 
-  .stagger-2 {
+  .delay-2 {
     animation-delay: 0.2s;
   }
 
-  .stagger-3 {
+  .delay-3 {
     animation-delay: 0.3s;
   }
 
-  .stagger-4 {
+  .delay-4 {
     animation-delay: 0.4s;
+  }
+
+  .delay-5 {
+    animation-delay: 0.5s;
+  }
+
+  /* Subtle gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
   }
 }
