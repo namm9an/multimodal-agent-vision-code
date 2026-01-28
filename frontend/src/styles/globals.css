@@ -2,18 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Clean sans-serif font */
+/* Inter font - clean and modern */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* Dark iOS-style theme */
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
     --card: 0 0% 6%;
     --card-foreground: 0 0% 100%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 100%;
     --primary: 0 0% 100%;
     --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 12%;
@@ -22,8 +19,6 @@
     --muted-foreground: 0 0% 60%;
     --accent: 0 0% 15%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 0 0% 40%;
@@ -47,166 +42,12 @@
   }
 }
 
-/* Floating Orbs Animation */
 @layer utilities {
-  .floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.5;
-    animation: float-around 20s ease-in-out infinite;
-  }
 
-  .orb-1 {
-    width: 500px;
-    height: 500px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    top: -200px;
-    left: -100px;
-    animation-delay: 0s;
-  }
-
-  .orb-2 {
-    width: 400px;
-    height: 400px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    top: 40%;
-    right: -150px;
-    animation-delay: -7s;
-  }
-
-  .orb-3 {
-    width: 350px;
-    height: 350px;
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    bottom: -100px;
-    left: 30%;
-    animation-delay: -14s;
-  }
-
-  @keyframes float-around {
-
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-
-    25% {
-      transform: translate(30px, -30px) scale(1.05);
-    }
-
-    50% {
-      transform: translate(-20px, 20px) scale(0.95);
-    }
-
-    75% {
-      transform: translate(15px, 15px) scale(1.02);
-    }
-  }
-
-  /* iOS-style Glass Effect */
+  /* Glass effect */
   .glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-strong {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  /* Interactive Hover Effects */
-  .interactive {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .interactive:hover {
-    @apply -translate-y-1;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Button Styles */
-  .btn-primary {
-    @apply px-6 py-3 bg-white text-black font-medium rounded-full;
-    @apply transition-all duration-200 ease-out;
-  }
-
-  .btn-primary:hover {
-    @apply bg-gray-100 scale-105;
-  }
-
-  .btn-ghost {
-    @apply px-6 py-3 text-white font-medium rounded-full;
-    @apply transition-all duration-200 ease-out;
-    @apply glass;
-  }
-
-  .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  /* Card Style */
-  .card-glass {
-    @apply rounded-2xl glass p-6;
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .card-glass:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-4px);
-  }
-
-  /* Large Typography */
-  .text-hero {
-    @apply text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.05];
-  }
-
-  /* Fade In Animation */
-  .fade-up {
-    animation: fadeUp 0.8s ease-out forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .delay-1 {
-    animation-delay: 0.1s;
-  }
-
-  .delay-2 {
-    animation-delay: 0.2s;
-  }
-
-  .delay-3 {
-    animation-delay: 0.3s;
-  }
-
-  .delay-4 {
-    animation-delay: 0.4s;
-  }
-
-  .delay-5 {
-    animation-delay: 0.5s;
-  }
-
-  /* Subtle gradient text */
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
   }
 }

@@ -6,25 +6,25 @@ import {
     SignUpButton,
     UserButton,
 } from "@clerk/clerk-react";
-import { Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 /**
- * Dark glassmorphism layout with floating background.
+ * Clean dark layout - no icons, minimal design.
  */
 export function Layout() {
     return (
         <div className="min-h-screen bg-black text-white">
             {/* Navigation Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+            <header className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-xl border-b border-white/5">
                 <div className="container mx-auto flex h-16 items-center justify-between px-6">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2.5 group">
-                        <div className="p-1.5 rounded-lg bg-white group-hover:scale-110 transition-transform">
-                            <Sparkles className="h-4 w-4 text-black" />
-                        </div>
-                        <span className="font-semibold text-lg">
+                    {/* Logo - text only */}
+                    <Link to="/" className="flex items-center">
+                        <motion.span
+                            className="font-semibold text-lg"
+                            whileHover={{ opacity: 0.8 }}
+                        >
                             Multimodal Agent
-                        </span>
+                        </motion.span>
                     </Link>
 
                     {/* Navigation */}
@@ -40,7 +40,7 @@ export function Layout() {
                                 afterSignOutUrl="/"
                                 appearance={{
                                     elements: {
-                                        avatarBox: "h-8 w-8 ring-2 ring-white/20",
+                                        avatarBox: "h-8 w-8",
                                     },
                                 }}
                             />
@@ -53,9 +53,12 @@ export function Layout() {
                                 </button>
                             </SignInButton>
                             <SignUpButton mode="modal">
-                                <button className="btn-primary text-sm">
+                                <motion.button
+                                    className="px-4 py-2 text-sm font-medium text-white bg-white/10 rounded-full border border-white/10"
+                                    whileHover={{ backgroundColor: "rgba(255,255,255,0.15)" }}
+                                >
                                     Get started
-                                </button>
+                                </motion.button>
                             </SignUpButton>
                         </SignedOut>
                     </nav>
@@ -68,16 +71,15 @@ export function Layout() {
             </main>
 
             {/* Footer */}
-            <footer className="glass border-t border-white/5">
+            <footer className="border-t border-white/5">
                 <div className="container mx-auto px-6 py-8">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="flex items-center space-x-2 text-sm text-white/40">
-                            <Sparkles className="h-4 w-4" />
-                            <span>Powered by Qwen, Llama & DeepSeek</span>
-                        </div>
-                        <p className="text-sm text-white/30">
+                        <span className="text-sm text-white/40">
+                            Powered by Qwen, Llama & DeepSeek
+                        </span>
+                        <span className="text-sm text-white/30">
                             © 2026 Multimodal Agent
-                        </p>
+                        </span>
                     </div>
                 </div>
             </footer>
