@@ -140,3 +140,7 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Get cached settings instance."""
     return Settings()
+
+
+# Create settings instance for direct import
+settings = get_settings()
