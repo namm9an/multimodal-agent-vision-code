@@ -4,9 +4,11 @@ import { Loader2 } from "lucide-react";
 
 import { FileUploader } from "../components/features/upload/FileUploader";
 import { JobList } from "../components/features/upload/JobList";
+import { FadeIn } from "@/components/ui/Animations";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 /**
- * Main dashboard page for authenticated users.
+ * Dashboard page with dark theme matching the homepage.
  */
 export function DashboardPage() {
     const { isSignedIn, isLoaded } = useAuth();
@@ -21,32 +23,46 @@ export function DashboardPage() {
     if (!isLoaded) {
         return (
             <div className="flex items-center justify-center py-20">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                <Loader2 className="h-8 w-8 animate-spin text-white/60" />
             </div>
         );
     }
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 max-w-4xl mx-auto">
             {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold">Dashboard</h1>
-                <p className="text-slate-600 dark:text-slate-300 mt-2">
-                    Upload images and view your processing jobs.
-                </p>
-            </div>
+            <FadeIn>
+                <div>
+                    <h1 className="text-4xl font-bold text-white">Dashboard</h1>
+                    <p className="text-white/50 mt-2">
+                        Upload images and view your processing jobs.
+                    </p>
+                </div>
+            </FadeIn>
 
             {/* Upload Section */}
-            <section className="rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-800 dark:border-slate-700">
-                <h2 className="text-xl font-semibold mb-4">Upload Image</h2>
-                <FileUploader />
-            </section>
+            <FadeIn delay={0.1}>
+                <SpotlightCard className="p-0">
+                    <div className="p-6 border-b border-white/5">
+                        <h2 className="text-xl font-semibold text-white">Upload Image</h2>
+                    </div>
+                    <div className="p-6">
+                        <FileUploader />
+                    </div>
+                </SpotlightCard>
+            </FadeIn>
 
             {/* Jobs Section */}
-            <section className="rounded-xl border bg-white p-6 shadow-sm dark:bg-slate-800 dark:border-slate-700">
-                <h2 className="text-xl font-semibold mb-4">Recent Jobs</h2>
-                <JobList />
-            </section>
+            <FadeIn delay={0.2}>
+                <SpotlightCard className="p-0">
+                    <div className="p-6 border-b border-white/5">
+                        <h2 className="text-xl font-semibold text-white">Recent Jobs</h2>
+                    </div>
+                    <div className="p-6">
+                        <JobList />
+                    </div>
+                </SpotlightCard>
+            </FadeIn>
         </div>
     );
 }

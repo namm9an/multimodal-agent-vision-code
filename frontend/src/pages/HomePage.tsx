@@ -81,23 +81,63 @@ export function HomePage() {
                     </FadeIn>
                 </section>
 
-                {/* Demo Card */}
+                {/* Demo Preview */}
                 <FadeIn delay={0.4}>
                     <section className="max-w-4xl mx-auto px-4">
-                        <SpotlightCard className="aspect-video flex items-center justify-center">
-                            <div className="text-center space-y-4">
+                        <SpotlightCard className="aspect-video flex items-center justify-center relative overflow-hidden">
+                            {/* Grid pattern background */}
+                            <div
+                                className="absolute inset-0 opacity-20"
+                                style={{
+                                    backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+                                    backgroundSize: '40px 40px'
+                                }}
+                            />
+
+                            <div className="text-center space-y-6 z-10">
                                 <motion.div
-                                    className="inline-flex p-4 rounded-2xl bg-white/5 border border-white/10"
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
+                                    className="flex items-center justify-center gap-8"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 1 }}
                                 >
-                                    <Upload className="h-8 w-8 text-white/60" />
+                                    {/* Upload icon */}
+                                    <div className="flex flex-col items-center gap-2">
+                                        <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                            <Upload className="h-6 w-6 text-white/40" />
+                                        </div>
+                                        <span className="text-xs text-white/30">Upload</span>
+                                    </div>
+
+                                    {/* Arrow */}
+                                    <ArrowRight className="h-5 w-5 text-white/20" />
+
+                                    {/* Process icon */}
+                                    <div className="flex flex-col items-center gap-2">
+                                        <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                            <Cpu className="h-6 w-6 text-white/40" />
+                                        </div>
+                                        <span className="text-xs text-white/30">Analyze</span>
+                                    </div>
+
+                                    {/* Arrow */}
+                                    <ArrowRight className="h-5 w-5 text-white/20" />
+
+                                    {/* Code icon */}
+                                    <div className="flex flex-col items-center gap-2">
+                                        <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                            <Code className="h-6 w-6 text-white/40" />
+                                        </div>
+                                        <span className="text-xs text-white/30">Generate</span>
+                                    </div>
                                 </motion.div>
-                                <p className="text-white/40">Drop an image to start</p>
+
+                                <p className="text-white/30 text-sm">See it in action on your dashboard</p>
                             </div>
                         </SpotlightCard>
                     </section>
                 </FadeIn>
+
 
                 {/* How It Works */}
                 <section className="max-w-5xl mx-auto px-4 space-y-16">

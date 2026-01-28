@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Clock, CheckCircle, XCircle, Loader2, ImageIcon } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Placeholder job data - will be replaced with React Query
 const PLACEHOLDER_JOBS = [
@@ -24,57 +25,46 @@ const PLACEHOLDER_JOBS = [
 ];
 
 /**
- * Skeleton component for loading states (Phase 4).
- */
-function JobSkeleton() {
-    return (
-        <div className="flex items-center justify-between p-4 rounded-lg border animate-pulse">
-            <div className="flex items-center gap-3">
-                <div className="h-5 w-5 bg-slate-200 dark:bg-slate-700 rounded-full" />
-                <div>
-                    <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded mb-2" />
-                    <div className="h-3 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
-                </div>
-            </div>
-            <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
-        </div>
-    );
-}
-
-/**
- * Empty state component with illustration (Phase 4).
+ * Empty state component.
  */
 function EmptyState() {
     return (
         <div className="text-center py-12 px-4">
-            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center mb-4">
-                <ImageIcon className="h-8 w-8 text-blue-500 dark:text-blue-400" />
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                <ImageIcon className="h-7 w-7 text-white/40" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+            <h3 className="text-lg font-semibold text-white mb-2">
                 No jobs yet
             </h3>
-            <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                Upload an image to get started. Our AI will analyze it and generate Python code for you.
+            <p className="text-white/40 max-w-sm mx-auto">
+                Upload an image to get started. AI will analyze it and generate Python code.
             </p>
         </div>
     );
 }
 
 /**
- * List of recent jobs with status indicators.
- * Phase 4: Enhanced with skeleton loading and empty states.
+ * Dark-themed job list with status indicators.
  */
 export function JobList() {
-    // TODO: Replace with React Query hook
     const jobs = PLACEHOLDER_JOBS;
     const isLoading = false;
 
     if (isLoading) {
         return (
             <div className="space-y-3">
-                <JobSkeleton />
-                <JobSkeleton />
-                <JobSkeleton />
+                {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 animate-pulse">
+                        <div className="flex items-center gap-3">
+                            <div className="h-5 w-5 bg-white/10 rounded-full" />
+                            <div>
+                                <div className="h-4 w-32 bg-white/10 rounded mb-2" />
+                                <div className="h-3 w-24 bg-white/10 rounded" />
+                            </div>
+                        </div>
+                        <div className="h-4 w-16 bg-white/10 rounded" />
+                    </div>
+                ))}
             </div>
         );
     }
@@ -85,8 +75,8 @@ export function JobList() {
 
     return (
         <div className="space-y-3">
-            {jobs.map((job) => (
-                <JobCard key={job.id} job={job} />
+            {jobs.map((job, index) => (
+                <JobCard key={job.id} job={job} index={index} />
             ))}
         </div>
     );
@@ -99,26 +89,26 @@ interface Job {
     createdAt: string;
 }
 
-function JobCard({ job }: { job: Job }) {
+function JobCard({ job, index }: { job: Job; index: number }) {
     const statusConfig: Record<string, { icon: any; className: string; label: string }> = {
         pending: {
             icon: Clock,
-            className: "text-yellow-500",
+            className: "text-yellow-400",
             label: "Pending",
         },
         processing: {
             icon: Loader2,
-            className: "text-blue-500 animate-spin",
+            className: "text-indigo-400 animate-spin",
             label: "Processing...",
         },
         completed: {
             icon: CheckCircle,
-            className: "text-green-500",
+            className: "text-green-400",
             label: "Completed",
         },
         failed: {
             icon: XCircle,
-            className: "text-red-500",
+            className: "text-red-400",
             label: "Failed",
         },
     };
@@ -126,23 +116,28 @@ function JobCard({ job }: { job: Job }) {
     const { icon: StatusIcon, className, label } = statusConfig[job.status] || statusConfig.pending;
 
     return (
-        <Link
-            to={`/jobs/${job.id}`}
-            className="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
         >
-            <div className="flex items-center gap-3">
-                <StatusIcon className={`h-5 w-5 ${className}`} />
-                <div>
-                    <p className="font-medium text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {job.filename}
-                    </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                        {new Date(job.createdAt).toLocaleString()}
-                    </p>
+            <Link
+                to={`/jobs/${job.id}`}
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all duration-200 group"
+            >
+                <div className="flex items-center gap-3">
+                    <StatusIcon className={`h-5 w-5 ${className}`} />
+                    <div>
+                        <p className="font-medium text-white group-hover:text-indigo-300 transition-colors">
+                            {job.filename}
+                        </p>
+                        <p className="text-sm text-white/40">
+                            {new Date(job.createdAt).toLocaleString()}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <span className={`text-sm font-medium ${className}`}>{label}</span>
-        </Link>
+                <span className={`text-sm font-medium ${className}`}>{label}</span>
+            </Link>
+        </motion.div>
     );
 }
-
