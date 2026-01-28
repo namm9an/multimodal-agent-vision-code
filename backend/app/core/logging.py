@@ -57,3 +57,15 @@ def setup_logging() -> None:
         logger_factory=structlog.stdlib.LoggerFactory(),
         cache_logger_on_first_use=True,
     )
+
+
+def get_logger(name: str | None = None) -> structlog.stdlib.BoundLogger:
+    """Get a structured logger instance.
+
+    Args:
+        name: Optional logger name, defaults to root logger.
+
+    Returns:
+        A configured structlog logger.
+    """
+    return structlog.get_logger(name)
