@@ -260,13 +260,15 @@ async def get_job(
         "updated_at": job.updated_at.isoformat(),
     }
 
-    # Cache with TTL based on status (Phase 4)
-    # Active jobs: short TTL (10s) for fresher data
-    # Completed/Failed: longer TTL (1 hour)
+    # Cache with TTL based on status (Phase 4/6)
+    # Uses config values for environment-specific TTL
+    from app.config import get_settings
+    settings = get_settings()
+
     if job.status in (JobStatus.COMPLETED, JobStatus.FAILED):
-        ttl = 3600  # 1 hour
+        ttl = settings.cache_ttl_completed_job
     else:
-        ttl = 10  # 10 seconds for active jobs
+        ttl = settings.cache_ttl_active_job
 
     await cache_manager.set(cache_key, response_data, ttl=ttl)
     logger.debug("Job cached", job_id=job_id, ttl=ttl)

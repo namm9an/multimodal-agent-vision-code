@@ -21,6 +21,7 @@ from app.core.cache import cache_manager
 from app.core.database import init_db
 from app.core.errors import setup_error_handlers
 from app.core.logging import setup_logging
+from app.core.rate_limiter import rate_limit_middleware
 
 # Initialize structured logging
 setup_logging()
@@ -108,6 +109,9 @@ def create_app() -> FastAPI:
 
     # Add request ID middleware (Phase 4)
     app.middleware("http")(request_id_middleware)
+
+    # Add rate limiting middleware (Phase 6)
+    app.middleware("http")(rate_limit_middleware)
 
     # Register global error handlers (Phase 4)
     setup_error_handlers(app)

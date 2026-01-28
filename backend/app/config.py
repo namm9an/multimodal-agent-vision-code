@@ -90,6 +90,23 @@ class Settings(BaseSettings):
     api_port: int = 8000
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
+    # -------------------------------------------------------------------------
+    # Rate Limiting (Phase 6)
+    # -------------------------------------------------------------------------
+    rate_limit_requests: int = 100  # requests per window
+    rate_limit_window: int = 60  # window in seconds
+
+    # -------------------------------------------------------------------------
+    # Cache TTL (Phase 6)
+    # -------------------------------------------------------------------------
+    cache_ttl_active_job: int = 10  # seconds for pending/processing jobs
+    cache_ttl_completed_job: int = 3600  # 1 hour for completed/failed jobs
+
+    # -------------------------------------------------------------------------
+    # Logging (Phase 6)
+    # -------------------------------------------------------------------------
+    log_level: str = "INFO"
+
     @field_validator("cors_origins", mode="before")
     @classmethod
     def parse_cors_origins(cls, v: Any) -> list[str]:
@@ -112,6 +129,11 @@ class Settings(BaseSettings):
     def is_production(self) -> bool:
         """Check if running in production mode."""
         return self.environment == "production"
+
+    @property
+    def is_staging(self) -> bool:
+        """Check if running in staging mode."""
+        return self.environment == "staging"
 
 
 @lru_cache
